@@ -1,25 +1,38 @@
-var builder = WebApplication.CreateBuilder(args);
+namespace StatStore.Loader;
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+public class program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    static async Task Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+        
+        builder.Services.AddSingleton<program>();
+        builder.Services.AddControllers();
+        
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        await app.Services.GetRequiredService<program>().Run(builder.Services, app);
+        await app.StopAsync();
+    }
+
+    public async Task Run(IServiceCollection services, WebApplication app)
+    {
+        await app.RunAsync();
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
