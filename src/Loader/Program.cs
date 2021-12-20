@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace StatStore.Loader;
 
 public class program
@@ -7,6 +9,12 @@ public class program
         var builder = WebApplication.CreateBuilder(args);
         
         builder.Services.AddSingleton<program>();
+
+        builder.Services.AddDbContextPool<AppDbContext>(options =>
+            options.UseMySql(
+                builder.Configuration.GetConnectionString("statstore"),
+                new MySqlServerVersion(new Version(10, 5, 13))));
+
         builder.Services.AddControllers();
         
         builder.Services.AddEndpointsApiExplorer();
