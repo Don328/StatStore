@@ -8,10 +8,10 @@ using StatStore.Loader.Core.Data;
 
 #nullable disable
 
-namespace StatStore.Loader.Migrations.AppSchedule
+namespace StatStore.Loader.Migrations
 {
     [DbContext(typeof(AppScheduleContext))]
-    [Migration("20211221194252_init")]
+    [Migration("20211221195308_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

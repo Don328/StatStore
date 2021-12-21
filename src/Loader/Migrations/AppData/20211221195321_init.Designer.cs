@@ -8,11 +8,11 @@ using StatStore.Loader;
 
 #nullable disable
 
-namespace StatStore.Loader.Migrations
+namespace StatStore.Loader.Migrations.AppData
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20211221194354_addTimeFrame")]
-    partial class addTimeFrame
+    [Migration("20211221195321_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

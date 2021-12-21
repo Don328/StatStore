@@ -7,10 +7,10 @@ using StatStore.Loader;
 
 #nullable disable
 
-namespace StatStore.Loader.Migrations
+namespace StatStore.Loader.Migrations.AppData
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    partial class AppDataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

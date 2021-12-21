@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace StatStore.Loader.Migrations.AppSchedule
+namespace StatStore.Loader.Migrations
 {
     public partial class init : Migration
     {

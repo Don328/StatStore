@@ -7,7 +7,7 @@ using StatStore.Loader.Core.Data;
 
 #nullable disable
 
-namespace StatStore.Loader.Migrations.AppSchedule
+namespace StatStore.Loader.Migrations
 {
     [DbContext(typeof(AppScheduleContext))]
     partial class AppScheduleContextModelSnapshot : ModelSnapshot
