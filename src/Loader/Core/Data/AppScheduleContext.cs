@@ -13,22 +13,6 @@ public class AppScheduleContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<LoadRecord>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever();
-            entity.Property(e => e.LastLoad);
-            entity.Property(e => e.LastUpdate);
-            entity.Property(e => e.TimeFrameLoaded);
-
-            entity.HasData(new LoadRecord
-            {
-                Id = 1,
-                LastLoad = DateTime.MinValue,
-                LastUpdate = DateTime.MinValue,
-                TimeFrameLoaded = DateTime.MinValue,
-            });
-        });
+        LoadRecordSchema.OnModelCreating(builder);
     }
 }
