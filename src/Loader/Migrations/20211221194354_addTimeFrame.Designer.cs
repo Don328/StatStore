@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StatStore.Loader;
 
@@ -10,9 +11,10 @@ using StatStore.Loader;
 namespace StatStore.Loader.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211221194354_addTimeFrame")]
+    partial class addTimeFrame
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

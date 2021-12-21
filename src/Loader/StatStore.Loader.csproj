@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Shared\StatStore.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Core\SchemaFactories\SportsData\" />
+  </ItemGroup>
+
 </Project>

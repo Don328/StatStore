@@ -2,7 +2,7 @@
 
 namespace StatStore.Loader.Core
 {
-    public class RequestQueue : BackgroundService, IDisposable, IRequestQueue
+    public class RequestQueue : BackgroundService, IDisposable, IQueueRequests
     {
         private readonly CancellationTokenSource tokenSource;
         private readonly ILogger<RequestQueue> logger;
@@ -32,9 +32,7 @@ namespace StatStore.Loader.Core
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                // Load daily Schedule
-
-                // Do Work
+                // Do work
             }
 
             await Task.CompletedTask;

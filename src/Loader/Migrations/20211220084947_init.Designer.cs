@@ -9,7 +9,7 @@ using StatStore.Loader;
 
 namespace StatStore.Loader.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(AppDataContext))]
     [Migration("20211220084947_init")]
     partial class init
     {

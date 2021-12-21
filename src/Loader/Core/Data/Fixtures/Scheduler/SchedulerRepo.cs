@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StatStore.Loader.Core.Data.Interfaces;
 
-namespace StatStore.Loader.Core.Data
+namespace StatStore.Loader.Core.Data.Fixtures.Scheduler
 {
-    public class DbRepo<T> : IGenericDataRepo<T> where T : class
+    public class SchedulerRepo<T> :
+        IGenericDataRepo<T>
+        where T : class
     {
-        private readonly AppDbContext db;
+        private readonly AppScheduleContext db;
         private DbSet<T> table;
 
-        public DbRepo(AppDbContext db)
+        public SchedulerRepo(AppScheduleContext db)
         {
             this.db = db;
             table = db.Set<T>();
@@ -28,9 +30,9 @@ namespace StatStore.Loader.Core.Data
 
         public T? GetByProperty(string name, object value)
         {
-           return (from t in table
-                          where t.GetType().GetProperty(name).GetValue(t) == value
-                          select t).FirstOrDefault();
+            return (from t in table
+                    where t.GetType().GetProperty(name).GetValue(t) == value
+                    select t).FirstOrDefault();
         }
 
         public void Create(T entity)
@@ -62,7 +64,7 @@ namespace StatStore.Loader.Core.Data
                 var obj = GetById((int)id);
                 if (obj != null)
                 {
-                    foreach(var prop in obj.GetType().GetProperties())
+                    foreach (var prop in obj.GetType().GetProperties())
                     {
                         prop.SetValue(obj, prop.GetValue(entity), null);
                     }

@@ -15,6 +15,6 @@ namespace StatStore.Loader.Core
 
         public Queue<ScheduledRequest.Queued> RequestQueue { get; set; }
         public TimeFrame TimeFrame { get; set; }
-        public RequestQueueLoadRecord LoadRecord { get; set; }
+        public LoadRecord LoadRecord { get; set; }
     }
 }
