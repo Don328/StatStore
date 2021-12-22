@@ -7,5 +7,6 @@ namespace StatStore.Loader.Core.Data.Loaders.ScheduleLoaders.Interfaces
         Task<LoadRecord> GetRecord();
         bool LoadedToday(LoadRecord record);
         Task TimeFrameLoaded(LoadRecord record);
+        Task QueueLoaded(LoadRecord record);
     }
 }

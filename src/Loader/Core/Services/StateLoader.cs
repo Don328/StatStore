@@ -1,4 +1,5 @@
-﻿using StatStore.Loader.Core.Data.Loaders.DataLoaders.Interfaces;
+﻿using StatStore.Loader.Core.Data.Fixtures.Scheduler.Interfaces;
+using StatStore.Loader.Core.Data.Loaders.DataLoaders.Interfaces;
 using StatStore.Loader.Core.Data.Loaders.ScheduleLoaders.Interfaces;
 using StatStore.Loader.Core.Interfaces;
 using StatStore.Loader.Core.Models;
@@ -9,23 +10,26 @@ namespace StatStore.Loader.Core.Services
     public class StateLoader : ILoadState
     {
         private readonly ILogger<StateLoader> logger;
-        private readonly StateStore state;
+        private readonly AppState state;
         private readonly ILoadRecords recordLoader;
         private readonly ILoadTimeFrame timeFrameLoader;
+        private readonly IRequestQueueFixture queueFixture;
 
         public StateLoader(
             ILogger<StateLoader> logger,
-            StateStore state,
+            AppState state,
             ILoadRecords recordLoader,
-            ILoadTimeFrame timeFrameLoader)
+            ILoadTimeFrame timeFrameLoader,
+            IRequestQueueFixture queuefixture)
         {
             this.logger = logger;
             this.state = state;
             this.recordLoader = recordLoader;
             this.timeFrameLoader = timeFrameLoader;
+            this.queueFixture = queuefixture;
         }
 
-        public StateStore State { get => state; }
+        public AppState State { get => state; }
 
         public async Task Initialize()
         {
@@ -33,10 +37,6 @@ namespace StatStore.Loader.Core.Services
             state.LoadRecord = await recordLoader.GetRecord();
             await GetCurrentTimeFrame();
             await LoadRequestQueue();
-            // Get current request queue record from db
-            // Evaluate request record
-            //     if current record null | stale:
-            //         create a new record and save to db
             await Task.CompletedTask;
         }
 
@@ -61,8 +61,25 @@ namespace StatStore.Loader.Core.Services
 
         private async Task LoadRequestQueue()
         {
+            logger.LogInformation("Loading request queue");
 
+            if (state.LoadRecord.QueueLoaded.Date < DateTime.Today)
+            {
+                logger.LogInformation("Queue has not been loaded. Loading Queue...");
+                await queueFixture.Load();
+                await recordLoader.QueueLoaded(state.LoadRecord);
+            }
 
+            logger.LogInformation("Getting request queue from database.");
+
+            state.TodaysRequests = await queueFixture.Get();
+            var requests = (
+                from r in state.TodaysRequests
+                where r.IsCompleted == false
+                orderby r.ExecuteAt
+                select r).ToList();
+
+            state.RequestQueue = new Queue<ScheduledRequest.Queued>(requests);
             await Task.CompletedTask;
         }
     }

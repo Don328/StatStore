@@ -8,6 +8,7 @@
             LastLoad = DateTime.MinValue;
             LastUpdate = DateTime.MinValue;
             TimeFrameLoaded = DateTime.MinValue;
+            QueueLoaded = DateTime.MinValue;
         }
 
 
@@ -15,5 +16,6 @@
         public DateTime LastLoad { get; set; }
         public DateTime LastUpdate { get; set; }
         public DateTime TimeFrameLoaded { get; set; }
+        public DateTime QueueLoaded { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace StatStore.Loader
             services.AddSingleton<program>();
             services.AddTransient<ICustomHttpClient, SportsDataIOHttpClient>();
             services.AddTransient<IQueueRequests, RequestQueue>();
-            services.AddSingleton<StateStore>();
+            services.AddSingleton<AppState>();
             services.AddTransient<ILoadState, StateLoader>();
         }
 

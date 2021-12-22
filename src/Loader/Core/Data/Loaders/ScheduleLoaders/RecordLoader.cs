@@ -42,6 +42,15 @@ namespace StatStore.Loader.Core.Data.Loaders.ScheduleLoaders
             logger.LogInformation("Recording TimeFrame load in load record.");
             record.TimeFrameLoaded = DateTime.Now;
             await fixture.Update(record);
+            await Task.CompletedTask;
+        }
+
+        public async Task QueueLoaded(LoadRecord record)
+        {
+            logger.LogInformation("Recording Queue load in load record.");
+            record.QueueLoaded = DateTime.Now;
+            await fixture.Update(record);
+            await Task.CompletedTask;
         }
     }
 }
