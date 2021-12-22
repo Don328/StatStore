@@ -1,6 +1,6 @@
 ﻿namespace StatStore.Loader.Core.Services.Interfaces
 {
-    public interface IStateLoader
+    public interface ILoadState
     {
         Task Initialize();
     }

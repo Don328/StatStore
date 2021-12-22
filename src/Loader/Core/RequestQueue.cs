@@ -1,4 +1,5 @@
 ﻿using StatStore.Loader.Core.Interfaces;
+using StatStore.Loader.Core.Services.Interfaces;
 
 namespace StatStore.Loader.Core
 {
@@ -6,12 +7,15 @@ namespace StatStore.Loader.Core
     {
         private readonly CancellationTokenSource tokenSource;
         private readonly ILogger<RequestQueue> logger;
+        private readonly ILoadState stateLoader;
 
-        public RequestQueue(ILogger<RequestQueue> logger)
+        public RequestQueue(
+            ILogger<RequestQueue> logger,
+            ILoadState stateLoader)
         {
             tokenSource = new();
-
             this.logger = logger;
+            this.stateLoader = stateLoader;
         }
 
         public async Task StartAsync()
@@ -32,7 +36,17 @@ namespace StatStore.Loader.Core
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                await stateLoader.Initialize();
+
                 // Do work
+
+                // Adding a 30 second sleep in between iterations of the program cycle
+                // This should be removed once the request queue is active
+                //
+                // The request queue should handle the [Thead.Sleep] call
+                // according to the time of the next request in the queue.
+                logger.LogInformation("Cycle complete. Thread sleeping for 30 seconds.");
+                Thread.Sleep(30000);
             }
 
             await Task.CompletedTask;

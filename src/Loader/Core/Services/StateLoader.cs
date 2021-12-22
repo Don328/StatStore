@@ -6,7 +6,7 @@ using StatStore.Loader.Core.Services.Interfaces;
 
 namespace StatStore.Loader.Core.Services
 {
-    public class StateLoader : IStateLoader
+    public class StateLoader : ILoadState
     {
         private readonly ILogger<StateLoader> logger;
         private readonly StateStore state;
@@ -29,9 +29,10 @@ namespace StatStore.Loader.Core.Services
 
         public async Task Initialize()
         {
+            logger.LogInformation("Initialiazing state");
             state.LoadRecord = await recordLoader.GetRecord();
             await GetCurrentTimeFrame();
-
+            await LoadRequestQueue();
             // Get current request queue record from db
             // Evaluate request record
             //     if current record null | stale:
@@ -41,10 +42,27 @@ namespace StatStore.Loader.Core.Services
 
         private async Task GetCurrentTimeFrame()
         {
-            var timeFrame = await timeFrameLoader.ReloadIfStale();
-            state.TimeFrame = timeFrame;
-            await recordLoader.TimeFrameLoaded(state.LoadRecord);
-            state.LoadRecord = await recordLoader.GetRecord();
+            logger.LogInformation("Getting Current Time Frame.");
+            if (state.LoadRecord.TimeFrameLoaded.Date < DateTime.Today)
+            {
+                logger.LogInformation("Timeframe is stale. Loading...");
+                state.TimeFrame = await timeFrameLoader.Load();
+                await recordLoader.TimeFrameLoaded(state.LoadRecord);
+                state.LoadRecord = await recordLoader.GetRecord();
+            }
+            else
+            {
+                logger.LogInformation($"TimeFrame last load: {state.LoadRecord.TimeFrameLoaded} | Getting from database");
+                state.TimeFrame = await timeFrameLoader.Get();
+            }
+
+            await Task.CompletedTask;
+        }
+
+        private async Task LoadRequestQueue()
+        {
+
+
             await Task.CompletedTask;
         }
     }

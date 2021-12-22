@@ -40,6 +40,8 @@ namespace StatStore.Loader.SportsDataIO.Endpoints
                 timeframe.Id = 1;
             }
 
+            logger.LogInformation($"Current TimeFrame fetched from SportsData server. Current season: {timeframe.Season} : {timeframe.SeasonType} week: {timeframe.Week}");
+
             return await Task.FromResult(timeframe);
         }
     }

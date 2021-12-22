@@ -31,6 +31,11 @@ internal static class TimeFrameSchema
             entity.Property(e => e.HasLastGameEnded);
             entity.Property(e => e.ApiSeason);
             entity.Property(e => e.ApiWeek);
+
+            entity.HasData(new TimeFrame
+            {
+                Id = 1
+            });
         });
     }
 }

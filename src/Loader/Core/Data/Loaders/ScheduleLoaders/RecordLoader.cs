@@ -20,9 +20,13 @@ namespace StatStore.Loader.Core.Data.Loaders.ScheduleLoaders
 
         public async Task<LoadRecord> GetRecord()
         {
+            logger.LogInformation("Getting load record from database.");
             var record = await fixture.Get();
+            logger.LogInformation($"last load: {record.LastLoad}");
             record.LastLoad = DateTime.Now;
-            return record;
+            await fixture.Update(record);
+            logger.LogInformation($"loaded: {record.LastLoad}");
+            return await Task.FromResult(record);
         }
 
         public bool LoadedToday(LoadRecord record)
@@ -35,6 +39,7 @@ namespace StatStore.Loader.Core.Data.Loaders.ScheduleLoaders
 
         public async Task TimeFrameLoaded(LoadRecord record)
         {
+            logger.LogInformation("Recording TimeFrame load in load record.");
             record.TimeFrameLoaded = DateTime.Now;
             await fixture.Update(record);
         }

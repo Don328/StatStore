@@ -2,5 +2,13 @@
 {
     public class QueueLoader
     {
+        private readonly ILogger<QueueLoader> logger;
+
+
+        public QueueLoader(
+            ILogger<QueueLoader> logger)
+        {
+            this.logger = logger;
+        }
     }
 }

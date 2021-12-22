@@ -43,7 +43,7 @@ namespace StatStore.Loader.Core.Data.Loaders.DataLoaders
         public async Task<TimeFrame> Load()
         {
             var timeframe = await endpoint.Fetch();
-            await fixture.Save(timeframe);
+            await fixture.Update(timeframe);
             return await Task.FromResult(timeframe);
         }
 
